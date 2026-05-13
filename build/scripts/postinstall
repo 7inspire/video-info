@@ -1,0 +1,6 @@
+#!/bin/bash
+# 刷新 Services 菜单，使新安装的 Quick Action 立即可用
+/System/Library/CoreServices/pbs -flush 2>/dev/null || true
+# 通知 Finder 刷新
+killall Finder 2>/dev/null || true
+exit 0
