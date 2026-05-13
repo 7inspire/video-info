@@ -51,6 +51,7 @@ var fps = "无法获取"
 var codec = "无法获取"
 var colorInfo = "无法获取"
 var durationStr = "无法获取"
+var bitrate = "无法获取"
 
 asset.loadValuesAsynchronously(forKeys: ["tracks", "duration"]) {
     // 时长
@@ -80,6 +81,18 @@ asset.loadValuesAsynchronously(forKeys: ["tracks", "duration"]) {
         let width = Int(w)
         let height = Int(h)
         resolution = "\(width) × \(height)"
+
+        // 码率
+        let estimatedBitRate = track.estimatedDataRate
+        if estimatedBitRate > 0 {
+            let mbps = estimatedBitRate / 1_000_000
+            let kbps = estimatedBitRate / 1_000
+            if mbps >= 1.0 {
+                bitrate = String(format: "%.2f Mbps", mbps)
+            } else {
+                bitrate = String(format: "%.0f Kbps", kbps)
+            }
+        }
 
         // 帧率
         let nominalFPS = track.nominalFrameRate
@@ -195,6 +208,7 @@ let info = """
 📐 分辨率：\(resolution)
 🎞 帧率：\(fps)
 🎬 编码格式：\(codec)
+📊 码率：\(bitrate)
 🎨 色彩信息：\(colorInfo)
 ⏱ 时长：\(durationStr)
 💾 文件大小：\(fileSize)
